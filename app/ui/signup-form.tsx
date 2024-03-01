@@ -20,10 +20,17 @@ function SignUpButton() {
 }
 
 export default function SignUpForm() {
-  const [signupForm, dispatch] = useFormState(signUp, {
-    status: false,
-    message: '',
-  });
+  const [signupForm, dispatch] = useFormState<{
+    status: boolean;
+    message: string;
+  }>(
+    //@ts-ignore
+    signUp,
+    {
+      status: false,
+      message: '',
+    },
+  );
 
   if (signupForm?.status) {
     redirect('/dashboard');

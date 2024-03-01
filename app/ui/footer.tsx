@@ -41,8 +41,6 @@ const Footer = () => {
           </span>
           <ul className="mt-5 flex justify-center space-x-5">
             {socialLinks.map((link) => {
-              console.log(link.icon);
-
               return (
                 <li key={link.name}>
                   <Link

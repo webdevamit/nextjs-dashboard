@@ -21,10 +21,17 @@ function LoginButton() {
 }
 
 export default function LoginForm() {
-  const [loginForm, dispatch] = useFormState(signIn, {
-    status: false,
-    message: '',
-  });
+  const [loginForm, dispatch] = useFormState<{
+    status: boolean;
+    message: string;
+  }>(
+    //@ts-ignore
+    signIn,
+    {
+      status: false,
+      message: '',
+    },
+  );
 
   if (loginForm?.status) {
     redirect('/dashboard');

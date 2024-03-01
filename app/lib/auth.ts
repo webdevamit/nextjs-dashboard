@@ -35,7 +35,7 @@ export async function signIn(
       email: formData.get('email'),
       password: formData.get('password'),
     };
-    const response = await getUser(user?.email);
+    const response = await getUser(user?.email as string);
     if (!response) {
       return { status: false, message: 'Invalid credentials.' };
     }
@@ -58,8 +58,8 @@ export async function signUp(
   formData: FormData,
 ) {
   try {
-    const email = formData.get('email');
-    const userName = formData.get('name');
+    const email = formData.get('email') as string;
+    const userName = formData.get('name') as string;
     const password = formData.get('password');
     const userId = `410544b${Math.floor(
       Math.random() * 10,
