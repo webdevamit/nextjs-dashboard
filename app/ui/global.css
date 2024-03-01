@@ -16,3 +16,12 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.btn {
+  margin-top: 20px;
+}
+.error-message {
+  line-height: normal !important;
+}
+aside {
+  height: 95vh;
+}

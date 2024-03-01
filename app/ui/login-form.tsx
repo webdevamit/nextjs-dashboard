@@ -1,16 +1,37 @@
+'use client';
+
 import { lusitana } from '@/app/ui/fonts';
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from './button';
+import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { useFormState, useFormStatus } from 'react-dom';
+import { signIn } from '../lib/auth';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      className="btn rounded-lg bg-gradient-to-br from-pink-500 to-orange-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-pink-200 dark:focus:ring-pink-800"
+      aria-disabled={pending}
+      type="submit"
+    >
+      Login
+    </button>
+  );
+}
 
 export default function LoginForm() {
+  const [loginForm, dispatch] = useFormState(signIn, {
+    status: false,
+    message: '',
+  });
+
+  if (loginForm?.status) {
+    redirect('/dashboard');
+  }
   return (
-    <form className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+    <form action={dispatch}>
+      <div className="flex-1 rounded-lg px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
         </h1>
@@ -55,19 +76,23 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
+        <p className="mb-3 mt-5 block text-xs font-medium text-gray-900">
+          do not have an account?{' '}
+          <Link href="/signup" className="text-blue-500">
+            Signup
+          </Link>
+        </p>
         <LoginButton />
         <div className="flex h-8 items-end space-x-1">
-          {/* Add form errors here */}
+          {loginForm && !loginForm?.status ? (
+            <p className="error-message mt-2 text-sm text-red-500">
+              {loginForm?.message}
+            </p>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </form>
-  );
-}
-
-function LoginButton() {
-  return (
-    <Button className="mt-4 w-full">
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
   );
 }
